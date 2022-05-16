@@ -56,5 +56,21 @@ class TestCard:
         assert max(set(self.test_card.card_table)) < 90
 
 
+class TestMagic:
 
+    def __init__(self):
+        self.player1 = classes.Player("max", True)
+        self.player2 = classes.Player("evgen", True)
+        self.game1 = classes.Game()
+        self.game2 = classes.Game()
+        self.card1 = classes.Card(self.player1)
+        self.card2 = classes.Card(self.player2)
 
+    def test_cards_eq(self):
+        assert not (self.card1 == self.card2)
+
+    def test_player(self):
+        assert not (self.player1 == self.player2)
+
+    def test_game(self):
+        assert not (self.game1 == self.game2)

@@ -67,6 +67,24 @@ class Card:
         #     list_row = ' '.join([str(x) for x in (self.card_table.loc[row])])
         #     print(list_row)
 
+    def __str__(self):
+        return str(self.card_table.shape)
+
+    def __eq__(self, other):
+        sum1, sum2 = 0,0
+        for x in self.card_table.columns:
+            stolb = self.card_table[x]
+            stolb_list = list(stolb)
+            stolb_list_zeros = [x if type(x) == int else 0 for x in stolb_list]
+            sum1 += sum(stolb_list_zeros)
+        for x in other.card_table.columns:
+            stolb = other.card_table[x]
+            stolb_list = list(stolb)
+            stolb_list_zeros = [x if type(x) == int else 0 for x in stolb_list]
+            sum2 += sum(stolb_list_zeros)
+
+        return sum1 == sum2
+
 
 # игрок
 name = '1'
@@ -83,6 +101,22 @@ class Player:
         self.live = live1
         self.card = Card(self)
 
+    def __str__(self):
+        return str(self.name)
+
+    def __eq__(self, other):
+
+        result = 0
+
+        result += (self.name == other.name)
+        result += (self.local_score == other.local_score)
+        result += (self.global_score == other.global_score)
+        result += (self.active == other.active)
+        result += (self.live == other.live)
+
+        return True if result == 5 else False
+
+
 
 class Game:
 
@@ -90,6 +124,19 @@ class Game:
         self.status = 'open'
         self.steps = 0
         self.players = list_players()
+
+    def __str__(self):
+        return str(self.status)
+
+    def __eq__(self, other):
+
+        result = 0
+        result += (self.status == other.status)
+        result += (self.steps == other.steps)
+        result += (self.players == other.players)
+
+        return True if result == 3 else False
+
 
 
 # печатается карточка текущего игрока
