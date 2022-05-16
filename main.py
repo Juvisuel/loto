@@ -11,6 +11,7 @@ def is_number(table, number):
             if table.loc[i, j] == number:
                 result = True
                 indexes = [j, i]
+    print('в коде', table, number,indexes)
 
     return result, indexes
 
@@ -37,14 +38,11 @@ def barrels_pop(barrels):
 
 def round(game_temp, barrels):
 
-
     barrel_number, barrels1 = barrels_pop(barrels)
     if sum(barrels1) == 0:
         game_temp.status = 'fin'
 
     if game_temp.status == 'open':
-
-
 
         for player in game_temp.players:
 
@@ -75,16 +73,15 @@ def round(game_temp, barrels):
                     player.card, game_temp = cross_card(player, game_temp, indexes)
 
     active_players = 0
-    for player in game.players:
+    for player in game_temp.players:
         if player.card.stat == 'game':
             active_players += 1
 
     if active_players < 1:
         game_temp.status = 'fin'
 
-    game.steps += 1
-    game.status = game_temp.status
-
+    game_temp.steps += 1
+    game = game_temp
 
     return game, barrels1
 
@@ -103,27 +100,5 @@ def game_play(game, barrels):
     return game_temp
 
 
-classes.decor_card()
-print('добро пожаловать в игру. Выберите, что будем делать')
-print('1 - играем')
-print('2 - не играем')
-classes.decor_card()
-game = []
 
-choice = int(input('введите число: '))
 
-if choice == 1:
-
-    game = classes.Game()
-    barrels = [x for x in range(1, 91)]
-
-    print()
-    print('карты розданы')
-
-    game_end = game_play(game, barrels)
-
-else:
-    print('до встречи')
-
-if game.status == 'fin':
-    print('спасибо за игру')
